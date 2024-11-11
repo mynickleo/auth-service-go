@@ -1,0 +1,44 @@
+version: "2"
+cloud:
+  project: "ruts-backend"
+sql:
+  - engine: "postgresql"
+    queries: "./queries"
+    schema: "./migrations/000001_create_tables.up.sql"
+    gen:
+      go:
+        out: "../../../pkg/sqlcqueries"
+        sql_package: "pgx/v5"
+        emit_json_tags: true
+        emit_result_struct_pointers: true
+        emit_pointers_for_null_types: true
+        query_parameter_limit: 0
+        overrides:
+        - db_type: "uuid"
+          go_type:
+            import: "github.com/google/uuid"
+            type: "UUID"
+        - db_type: "uuid"
+          nullable: true
+          go_type:
+            import: "github.com/google/uuid"
+            type: "UUID"
+            pointer: true
+        - db_type: "pg_catalog.int8"
+          go_type:
+            type: "int64"
+        - db_type: "pg_catalog.int8"
+          nullable: true
+          go_type:
+            type: "int64"
+            pointer: true
+        - db_type: "pg_catalog.timestamptz"
+          go_type:
+            import: "time"
+            type: "Time"
+        - db_type: "pg_catalog.timestamptz"
+          nullable: true
+          go_type:
+            import: "time"
+            type: "Time"
+            pointer: true
